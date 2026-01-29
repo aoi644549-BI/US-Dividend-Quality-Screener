@@ -1,41 +1,49 @@
-# US-Dividend Quality Screener 🇺🇸📊
-### 財務健全性と下落耐性に基づく米国高配当株分析ツール
+# US-Dividend Quality Screener 🇺🇸
+### Analysis Tool for Financial Health & Downside Resilience
 
-## 概要 (Overview)
-「表面的な高配当（Value Trap）」を回避し、財務基盤が盤石で、かつ市場の暴落局面にも耐えうる「真の優良高配当株」を抽出するためのPython製スクリーニングツールです。
-S&P500構成銘柄を対象に、ファンダメンタルズ分析とヒストリカル・ストレステスト（過去の暴落耐性評価）を自動で行います。
+## Overview
+This is a Python-based screening tool designed to identify **"True Quality High-Dividend Stocks"**—companies with solid financial foundations that can withstand market crashes—while avoiding "Value Traps" (stocks that appear cheap but have underlying issues).
 
-## 開発の背景 (Background)
-自身の資産運用において、高配当株への投資を行っていますが、単に利回りが高い銘柄は「減配リスク」や「株価の下落トレンド」を抱えていることが多いという課題がありました。
-「財務という骨格」と「暴落時の耐久性」の2軸で銘柄を選別するツールを開発しました。
+Targeting S&P 500 constituents, the tool automatically performs fundamental analysis and historical stress tests (evaluating resilience during past market crashes).
 
-## 機能 (Features)
-1.  **データ自動収集:** WikipediaおよびYahoo Finance APIから、S&P500銘柄の株価・財務データを自動取得。
-2.  **クオリティ・スクリーニング:**
-    * 配当利回り 3.0%以上
-    * 配当性向 80%以下（無理な配当を出していないか）
-    * 営業黒字であること
-3.  **独自スコアリング (My Logic):**
-    * 営業利益率（稼ぐ力）とベータ値（安定性）を偏差値化し、独自の重み付けで総合スコアを算出。
-4.  **ヒストリカル・ストレステスト:**
-    * コロナショック（2020/2-3）などの特定期間における下落耐性をS&P500と比較検証。
+## Background
+In my personal asset management, I focus on dividend investing. However, I identified a problem: simply chasing high yields often leads to **"dividend cut risks"** or **"structural downtrends."**
 
-## 技術スタック (Tech Stack)
-* **Language:** Python 3.x
+To solve this, I developed a tool that filters stocks based on two core axes:
+1.  **Financial Backbone** (Profitability & Sustainability)
+2.  **Crash Durability** (Historical Resilience)
+
+## Features
+1.  **Automated Data Collection:**
+    * Automatically fetches S&P 500 lists and financial/price data via Wikipedia and the Yahoo Finance API.
+2.  **Quality Screening:**
+    * **Dividend Yield:** ≥ 3.0%
+    * **Payout Ratio:** ≤ 80% (Ensuring dividend sustainability)
+    * **Operating Margin:** > 0% (Must be profitable)
+3.  **Proprietary Scoring (My Logic):**
+    * Calculates a comprehensive score by normalizing **Operating Margin** (Earning Power) and **Beta** (Stability), applying a custom weighting algorithm.
+4.  **Historical Stress Test:**
+    * Backtests performance against the S&P 500 during specific crisis periods, such as the **COVID-19 Crash (Feb-Mar 2020)**.
+
+## 🛠 Tech Stack
+* **Language:** Python 3.10+
+* **Infrastructure:** Docker / Docker Compose
+* **Web Framework:** Streamlit
 * **Libraries:**
-    * `pandas` (データ操作)
-    * `yfinance` (金融データ取得)
-    * `requests` / `BeautifulSoup` (スクレイピング)
-    * `matplotlib` (データ可視化)
-    * `tqdm` (進捗管理)
+    * `pandas` (Data Manipulation)
+    * `yfinance` (Financial Data Extraction)
+    * `requests` (Web Scraping)
+    * `matplotlib` (Data Visualization)
+    * `tqdm` (Progress Tracking)
 
-## 分析結果 (Sample Result)
-本ツールを用いて抽出されたTop銘柄と、市場平均（S&P500）の過去5年間のパフォーマンス比較。
+## Sample Result
+Below is a performance comparison between the Top-selected stocks and the market average (S&P 500) over the past 5 years.
 
+*(Please insert your image here: `output/figures/performance_chart.png`)*
 
-* **赤帯:** コロナショック期間 (Covid-19 Crash)
-* **考察:** 公益事業セクター（LNT, AEP）は市場平均に対し、暴落時の下落幅が限定的であることが確認できました。
+* **Red Zone:** COVID-19 Crash period.
+* **Insight:** The Utilities sector stocks (e.g., LNT, AEP) demonstrated significant downside resistance compared to the market average during the crash, validating the screening logic.
 
-## 著者 (Author)
-* 専攻: 有機化学（修士1年）
-* 興味: データサイエンス、アセットマネジメント、クオンツ分析
+## Author
+* **Major:** Organic Chemistry (1st year Master's Student)
+* **Interests:** Data Science, Asset Management, Quantitative Analysis
