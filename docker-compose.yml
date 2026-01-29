@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  quant-app:
+    build: .
+    container_name: dividend_screener
+    ports:
+      - "8501:8501" # ホストの8501番ポートをコンテナの8501番に繋ぐ
+    volumes:
+      - ./data:/app/data # データフォルダを同期（永続化）
+      - ./output:/app/output # 出力フォルダを同期
+      - ./src:/app/src # コードを同期（編集したら即反映されるように）
+      - ./streamlit_app:/app/streamlit_app
+    environment:
+      - TZ=Asia/Tokyo # タイムゾーンを日本に設定
