@@ -5,5 +5,4 @@ matplotlib
 requests #WikipediaからS&P500リストを取得（スクレイピング）する際のアクセスに使用
 lxml #pd.read_html が裏側で使うHTML解析ツール
 tqdm #データ取得時のプログレスバー（進捗表示）に使用
-os
 streamlit

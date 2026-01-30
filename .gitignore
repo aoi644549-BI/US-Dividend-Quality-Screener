@@ -1,0 +1,14 @@
+# データファイルはGit管理しない
+data/
+output/
+
+# Pythonのキャッシュ
+__pycache__/
+*.pyc
+
+# Macの設定ファイル
+.DS_Store
+
+# 仮想環境
+venv/
+env/
