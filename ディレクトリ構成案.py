@@ -25,7 +25,7 @@ US-Dividend-Screener/
 │   │   ├── __init__.py
 │   │   └── plotter.py            # グラフを描画して保存するクラス
 │   │
-│   └── 📁 models/                # 【機械学習責務】(将来拡張用)
+│   └── 📁 models/                # 【機械学習責務】
 │       ├── __init__.py
 │       └── clustering.py         # K-Meansなどのモデル定義
 │

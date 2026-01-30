@@ -7,7 +7,7 @@ import os
 from tqdm import tqdm
 import warnings
 
-# 警告対策
+
 warnings.simplefilter('ignore')
 
 def fetch_all_data():

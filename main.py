@@ -1,4 +1,3 @@
-%%writefile main.py
 from src.data.loader import DataLoader
 from src.analysis.screener import QualityScreener
 from src.analysis.scoring import Scorer
