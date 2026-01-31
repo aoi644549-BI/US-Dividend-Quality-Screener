@@ -30,8 +30,9 @@ class Plotter:
         self.plot_monthly_heatmap(result)
         self.plot_return_distribution(result)
         self.plot_rolling_beta(result)
-        self.plot_monte_carlo(result) # New!
+        self.plot_monte_carlo(result) 
         print(f"📊 全てのグラフを {self.output_dir} に保存しました。")
+        
 
     def plot_cumulative_return(self, result):
         """1. 累積リターン比較"""
