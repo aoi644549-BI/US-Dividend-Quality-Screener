@@ -1,63 +1,70 @@
-# US-Dividend Quality Screener 🇺🇸
-### AI-Powered Analysis Tool for Financial Health & Downside Resilience
+# US-Dividend Quality Screener (Bio-Stats x Finance Edition) 🧬📈
+### AI-Powered Portfolio Construction with Survival Analysis & Machine Learning
 
 ## Overview
-This is a Python-based screening tool designed to identify **"True Quality High-Dividend Stocks"**—companies with solid financial foundations that can withstand market crashes—while avoiding "Value Traps."
+This is a quantitative analysis tool designed to construct a **"Low-Volatility, High-Quality Dividend Portfolio"**.
+By applying **Survival Analysis (Kaplan-Meier & Cox Proportional Hazards)**—methods traditionally used in medical research—to financial data, this tool quantitatively predicts the "lifespan" of a company's dividend sustainability.
 
-Targeting all S&P 500 constituents, the tool combines **"Fundamental Analysis with Unsupervised Machine Learning (K-Means Clustering) "**to construct a mathematically diversified portfolio that minimizes correlation risk.
+Combined with **Unsupervised Machine Learning (K-Means Clustering)** for correlation-based diversification, it builds a portfolio resilient to market crashes and inflation.
 
-## Background
-In dividend investing, simply chasing high yields often leads to **"dividend cuts"** or concentration risk in specific sectors (e.g., holding only Energy stocks). To solve this, I developed a tool that filters stocks based on three core axes:
+## 💡 Core Concept: "Bio-Statistics meets Finance"
+In this project, I reinterpreted financial events through the lens of biological survival:
+* **Patient Death** $\rightarrow$ **Dividend Cut / Stagnation**
+* **Survival Duration** $\rightarrow$ **Financial Runway (Inverse of Payout Ratio)**
+* **Risk Factors (Covariates)** $\rightarrow$ **Financial Metrics (Margin, ROE, Beta)**
 
-1.  **Financial Backbone** (Profitability relative to sector peers)
-2.  **Crash Durability** (Historical Resilience)
-3.  **AI-Based Diversification** (Mathematical Correlation Clustering)
-
+Just as doctors predict patient survival probabilities, this tool calculates a **"Hazard Score"** for every S&P 500 company to filter out future "value traps."
 
 ## Features
-1.  **Automated Data Pipeline:**
-    * Automatically fetches the full S&P 500 list and 10 years of historical price/financial data via Wikipedia and the Yahoo Finance API.
-    * Includes logic to handle **survivorship bias** and clean incomplete data for the current fiscal year.
-2.  **Relative Value Screening (Sector Neutral):**
-    * **Dividend Yield:** ≥ 3.0%
-    * **Payout Ratio:** ≤ 90% (Ensuring sustainability)
-    * **Dividend Growth (10Y):** ≥ 10% (Inflation protection)
-    * **Relative ROE:** Must exceed **Sector Average** (Selecting only the most efficient compounders in each industry).
-3.  **AI-Driven Diversification (Machine Learning):**
-    * Uses **K-Means Clustering** (`scikit-learn`) to group stocks based on their actual price movement correlations over 10 years.
-    * Identifies "mathematically distinct" asset groups rather than relying on traditional sector labels.
-4.  **Proprietary Scoring & Selection:**
-    * Calculates a comprehensive score based on **Operating Margin** (Earning Power) and **Beta** (Stability).
-    * Selects the highest-scoring stock from **each AI-generated cluster** to construct a truly diversified "All-Weather" portfolio.
-5.  **Historical Stress Test:**
-    * Backtests performance against the S&P 500 over the past decade (2016–2026), verifying resilience during crises like the **COVID-19 Crash (2020)**.
+1.  **Bio-Statistical Risk Assessment (Survival Analysis):**
+    * **Kaplan-Meier Estimator:** Visualizes the "survival probability" (dividend maintenance rate) of the market over time.
+    * **Cox Proportional Hazards Model:** Calculates a proprietary **Hazard Score** for each stock. High-risk companies (e.g., high payout ratio, declining growth) are penalized mathematically before they cut dividends.
+    * **Library:** Implemented using `lifelines` (Python).
+
+2.  **AI-Driven Diversification (K-Means Clustering):**
+    * Uses `scikit-learn` to cluster stocks based on **10-year price movement correlations**.
+    * Ensures the portfolio is **mathematically diversified**, selecting stocks from distinct clusters (e.g., mixing low-beta Utilities with high-growth Tech) rather than relying on arbitrary sector labels.
+
+3.  **Low-Volatility Scoring Model:**
+    * Scores candidates based on a defensive weighting logic:
+        * **Stability (Beta):** 50% (Prioritizing downside protection)
+        * **Survival (Hazard Score):** 30% (Dividend sustainability)
+        * **Profitability (Margins):** 20% (Earning power)
+    * Selects the top **10 stocks** to balance risk and return.
+
+4.  **Robust Data Pipeline:**
+    * Automatically fetches S&P 500 data via Wikipedia and Yahoo Finance API (`yfinance`).
+    * Includes a **Data Cleaning Layer** that automatically detects and standardizes mixed data units (e.g., converting percentage `5.0` to decimal `0.05`).
+
+5.  **Comprehensive Backtesting & Visualization:**
+    * Simulates performance from 2016–2026.
+    * Generates **9 types of analytical charts**, including:
+        * Kaplan-Meier Survival Curve
+        * Monte Carlo Simulation (Future Forecasting)
+        * Return Distribution (Fat Tail Analysis)
+        * Rolling Beta & Sharpe Ratio
 
 ## Tech Stack
 * **Language:** Python 3.10+
-* **Infrastructure:** Docker / Docker Compose
-* **Machine Learning:** scikit-learn (K-Means Clustering)
-* **Web Framework:** Streamlit
-* **Libraries:**
-    * `pandas` (Data Manipulation)
-    * `yfinance` (Financial Data Extraction)
-    * `requests` (Web Scraping)
-    * `matplotlib` (Data Visualization)
-    * `tqdm` (Progress Tracking)
+* **Bio-Statistics:** `lifelines` (Survival Analysis)
+* **Machine Learning:** `scikit-learn` (Clustering)
+* **Data Science:** `pandas`, `numpy`, `scipy`
+* **Financial Data:** `yfinance`, `requests` (Scraping)
+* **Visualization:** `matplotlib`, `seaborn`
 
 ## 📂 Directory Structure
-This project adopts a modular design based on **Separation of Concerns (SoC)** to ensure scalability and maintainability.
-
 ```text
 US-Dividend-Screener/
-├── 📁 data/                  # Raw data storage (csv)
-├── 📁 output/                # Analysis results & Charts
+├── 📁 data/                  # Raw CSV storage
+├── 📁 output/                #
+│   └── 📁 figures/           # Generated Charts (Survival curves, Heatmaps, etc.)
 ├── 📁 src/                   # Source Code
-│   ├── 📁 data/              # Data Loading & Acquisition
-│   ├── 📁 analysis/          # Screening & Scoring Logic
-│   ├── 📁 models/            # Machine Learning Models (K-Means)
-│   ├── 📁 backtesting/       # Historical Simulation
-│   └── 📁 visualization/     # Plotting
-├── 📄 main.py                # Main Entry Point
+│   ├── 📁 data/              # Data Fetching & Cleaning (loader.py)
+│   ├── 📁 analysis/          # Survival Analysis (survival.py) & Scoring
+│   ├── 📁 models/            # K-Means Clustering
+│   ├── 📁 backtesting/       # Performance Engine
+│   └── 📁 visualization/     # Plotting Logic
+├── 📄 main.py                # Main Execution Script
 └── 📄 requirements.txt       # Dependencies
 ```
 
@@ -65,7 +72,7 @@ US-Dividend-Screener/
 The workflow is divided into **Data Acquisition** and **Analysis** phases to optimize efficiency.
 
 ### 1. Data Acquisition
-Fetches S&P 500 data (approx. 5-10 mins). Run this periodically to update the dataset.
+Fetches the latest S&P 500 list and 10 years of historical data. Robust against anti-scraping measures.
 *Note: This process is separated because downloading data takes time. Run this periodically (e.g., weekly).*
 
 ```bash
@@ -77,7 +84,7 @@ Populates data/ directory with sp500_stock_prices.csv and sp500_fundamentals.csv
 
 
 ### 2. Analysis & Execution
-Executes the full pipeline: Relative Screening -> AI Clustering -> Scoring -> Backtesting.
+Runs the full pipeline: Screening -> Survival Analysis -> AI Clustering -> Scoring -> Backtest.
 
 ```bash
 python main.py
@@ -89,17 +96,20 @@ Console: Displays AI cluster assignments and the final selected portfolio metric
 File: Saves the performance chart to output/figures/ai_strategy_result.png.
 
 
-## Sample Result
-Below is a performance comparison between the AI-Selected Portfolio and the S&P 500 over the past 10 years (2016-2026).
+## Sample Output
+The tool generates a portfolio of **10 stocks** optimized for risk-adjusted returns.
 
+**Performance Metrics (2016-2026):**
+* **CAGR (Annual Return):** ~13.0% (Outperforming typical High-Dividend ETFs)
+* **Max Drawdown:** Significantly reduced compared to pure market indices due to the "Low Beta" focus.
+* **Sharpe Ratio:** Optimized for stability.
 
-
-* **Red Zone:** COVID-19 Crash period.
-* **CAGR (Annual Return):** 13.79% (Outperforming Market Avg)
-* **Strategy:** The AI successfully identified low-correlation assets (e.g., mixing Merck [Healthcare] with EOG Resources [Energy] and Essex Property [Real Estate]), balancing growth and defensive capabilities.
+**Key Visualizations:**
+* `9_survival_curve.png`: Shows the probability of dividend sustainability.
+* `8_monte_carlo.png`: Probabilistic future portfolio value projection.
 
 ## Author
-* **Major:**  1st year Master's Student (Organic Chemistry、bio chemistry)
-* **Interests:** Data Science, Asset Management, Quantitative Analysis
-* **Project Goal:**  
-    As an aspiring quantitative researcher, I initiated this project to deepen my understanding of the financial industry and gain data-driven insights for my personal investing. It also serves as a practical study in leveraging Generative AI to accelerate the implementation of advanced financial algorithms.
+* **Background:** Master's Student in Organic Chemistry / Biochemistry
+* **Focus:** Quantitative Finance, Data Science, Bio-Statistics Application
+* **Project Goal:**
+    This project demonstrates the cross-disciplinary application of **survival analysis algorithms** (used in clinical trials) to **financial risk management**. It serves as a proof-of-concept for using alternative datasets and methodologies in quantitative research.

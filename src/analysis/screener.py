@@ -2,26 +2,43 @@ import pandas as pd
 
 
 class QualityScreener:
-    def __init__(self, df):
-        self.df = df
+    def __init__(self, df_fundamentals):
+        self.df = df_fundamentals.copy()
 
-    def apply_filters(self, min_yield=3.0, max_payout=0.8, min_growth_10y=0.1, min_roe=0.1, min_mkt_cap=1_000_000):
+    def apply_filters(self, min_yield=0.015, max_payout=1.0, min_growth_10y=0.0):
         """
-        min_growth_10y: 10年増配率
-        min_roe: 自己資本利益率 (0.1 = 10%)
-        min_mkt_cap: 時価総額 (ドル)
+        シンプルなフィルタリングを適用する
         """
-        df = self.df.copy()
-
-        df['MarketCapRank'] = df.groupby('Sector')['MarketCap'].rank(ascending=False)
-
-        condition = (
-            (df['DividendYield'] >= min_yield) & #配当利回り
-            (df['PayoutRatio'] <= max_payout) & 
-            (df['DividendGrowth10Y'] >= min_growth_10y) &  # 10年成長
-            (df['ReturnOnEquity'] >= min_roe) &             # ROE 10%以上
-            (df['MarketCap'] >= min_mkt_cap) &              # 時価総額
-            (df['MarketCapRank'] <= 5)
-        )
+        print(f"  [Screening] 初期候補数: {len(self.df)} 銘柄")
         
-        return df[condition].copy()
+        # 1. データの欠損を埋める (NaNで落ちるのを防ぐ)
+        # 成長率や配当性向がない場合は、一旦「パス」させるために安全な値で埋める
+        self.df['DividendYield'] = self.df['DividendYield'].fillna(0)
+        self.df['PayoutRatio'] = self.df['PayoutRatio'].fillna(0.5) # 平均的な値にしておく
+        self.df['DividendGrowth10Y'] = self.df['DividendGrowth10Y'].fillna(0)
+        self.df['OperatingMargins'] = self.df['OperatingMargins'].fillna(0.1)
+        
+        # 2. 配当利回りフィルター
+        df_filtered = self.df[self.df['DividendYield'] >= min_yield]
+        print(f"  [Filter] 利回り {min_yield*100}% 以上: {len(df_filtered)} 銘柄 (脱落: {len(self.df) - len(df_filtered)})")
+        
+        # 3. 配当性向フィルター
+        # 0未満(利益マイナス)や、max_payout超えを除外
+        before_len = len(df_filtered)
+        df_filtered = df_filtered[
+            (df_filtered['PayoutRatio'] > 0) & 
+            (df_filtered['PayoutRatio'] <= max_payout)
+        ]
+        print(f"  [Filter] 配当性向 0~{max_payout*100}%: {len(df_filtered)} 銘柄 (脱落: {before_len - len(df_filtered)})")
+        
+        # 4. 営業利益率フィルター (赤字企業を除外)
+        before_len = len(df_filtered)
+        df_filtered = df_filtered[df_filtered['OperatingMargins'] > 0]
+        print(f"  [Filter] 黒字企業 (利益率>0): {len(df_filtered)} 銘柄 (脱落: {before_len - len(df_filtered)})")
+        
+        # 5. 増配率フィルター
+        before_len = len(df_filtered)
+        df_filtered = df_filtered[df_filtered['DividendGrowth10Y'] >= min_growth_10y]
+        print(f"  [Filter] 10年増配率 {min_growth_10y*100}% 以上: {len(df_filtered)} 銘柄 (脱落: {before_len - len(df_filtered)})")
+
+        return df_filtered
