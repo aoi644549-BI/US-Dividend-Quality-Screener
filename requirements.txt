@@ -8,3 +8,7 @@ tqdm
 streamlit
 scikit-learn
 plotly
+lifelines
+seaborn
+pyngrok
+Pillow
